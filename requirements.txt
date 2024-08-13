@@ -1,0 +1,4 @@
+googlesearch-python
+langchain
+streamlit
+beautifulsoup4
