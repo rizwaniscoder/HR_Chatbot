@@ -1,3 +1,6 @@
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.chains.summarize import load_summarize_chain
+from langchain.docstore.document import Document
 import streamlit as st
 import toml
 from langchain import LLMChain
@@ -6,6 +9,7 @@ from langchain.llms import OpenAI
 from googlesearch import search
 from bs4 import BeautifulSoup
 import requests
+
 
 
 secrets = toml.load("secrets.toml")
@@ -18,7 +22,7 @@ prompt_template = PromptTemplate.from_template(
 
 
 def search_dol(query):
-    search_results = search(f"site:dol.gov {query}", num=5, stop=5, pause=2.0)
+    search_results = search(f"site:dol.gov {query}", num=3, stop=3, pause=0)
     results_text = ""
     for result in search_results:
 
@@ -31,9 +35,17 @@ def search_dol(query):
             results_text += f"Error fetching {result}: {str(e)}\n"
     return results_text
 
+def summarize_text(results_text):
+    
+    char_text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+    documents = char_text_splitter.split_documents([Document(page_content=results_text)])
+    llm = OpenAI(temperature=0.5, openai_api_key=api_key)
+    model = load_summarize_chain(llm=llm, chain_type='refine')
+    summary = model.run(documents)
+    return summary
 
 def get_response(question, dol_info):
-    llm = OpenAI(temperature=0.5, openai_api_key=api_key)
+    llm = OpenAI(temperature=0.3, openai_api_key=api_key)
     chain = LLMChain(
         llm=llm,
         prompt=prompt_template,
@@ -91,7 +103,9 @@ def main():
 
 
         dol_info = search_dol(user_question)
-        response = get_response(user_question, dol_info)
+        dol_info_summary = summarize_text(dol_info)
+        
+        response = get_response(user_question, dol_info_summary)
         st.session_state.chat_history.append({"role": "assistant", "content": response})
 
         with st.chat_message("assistant"):

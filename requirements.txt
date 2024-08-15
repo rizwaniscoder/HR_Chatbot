@@ -1,4 +1,6 @@
-googlesearch-python
-langchain
-streamlit
-beautifulsoup4
+googlesearch-python==1.2.5
+langchain==0.2.12
+streamlit==1.37.1
+beautifulsoup4==4.12.3
+toml==0.10.2
+requests==2.31.0
