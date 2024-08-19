@@ -4,3 +4,4 @@ streamlit==1.37.1
 beautifulsoup4==4.12.3
 toml==0.10.2
 requests==2.31.0
+langchain-community
