@@ -22,7 +22,7 @@ prompt_template = PromptTemplate.from_template(
 
 
 def search_dol(query):
-    search_results = search(f"site:dol.gov {query}", num=3, stop=3, pause=0)
+    search_results = search(f"site:dol.gov {query}")
     results_text = ""
     for result in search_results:
 
