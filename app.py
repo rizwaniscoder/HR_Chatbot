@@ -6,7 +6,6 @@ from langchain_community.utilities import SerpAPIWrapper
 from langchain.prompts import PromptTemplate
 import toml
 
-
 def load_api_keys(file_path):
     try:
         secrets = toml.load(file_path)
@@ -88,7 +87,6 @@ def process_user_input(agent, user_question):
         return "Sorry, there was an error processing your question."
 
 def main():
-    # Load API keys
     api_key, serper_api_key = load_api_keys("secrets.toml")
 
     # Initialize Streamlit configuration

@@ -4,3 +4,4 @@ toml==0.10.2
 requests==2.31.0
 langchain-community
 openai
+wikipedia
