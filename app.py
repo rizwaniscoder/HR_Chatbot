@@ -56,7 +56,6 @@ def initialize_tools_and_agent(api_key, serper_api_key):
         st.error(f"Error initializing tools or agent: {e}")
         raise
 
-
 def display_chat_history():
     try:
         for chat in st.session_state.chat_history:
